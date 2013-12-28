@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<link rel="shortcut icon" href="img/ellsworth_kelly.ico">
+	<title>slides</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- <link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-responsive.css" /> -->
+	<link rel="stylesheet" href="bootstrap/bootstrap3rc.min.css" />
+	<link rel="stylesheet" href="style/animate.css-master/animate.min.css" />
+
+	<style type="text/css">
+		body {
+			background-image: url("img/mooning.png");
+			/*background-color: #606060;*/
+			padding-top: 10%;
+			overflow: hidden;
+		}
+
+		.slide {
+			width: 80%;
+			height: 500px;
+			background: white;
+			font-size: 2.2em;
+			box-shadow: 0 2px 9px 2px #909090;
+			border: 1px solid LIGHTSLATEGRAY;
+			/*box-shadow: 0 1px 9px 3px #888;*/
+			margin: 0 auto;
+		}
+
+		/*.show {
+			display: inherit;
+		}*/
+		.hide {
+			/*with bootstrap, is not necessary set display: none*/
+			display: none;
+			/*opacity: 1;*/
+		}
+
+		.animated {
+			-webkit-animation-duration: 0.5s;
+			-moz-animation-duration: 0.5s;
+			-o-animation-duration: 0.5s;
+			animation-duration: 0.5s;
+		}
+	</style>
+
+</head>
+
+
+<body id="body">
+
+	<div id="slide1" class="slide">slide 1</div>
+
+	<div id="slide2" class="slide hide">slide 2</div>
+
+	<div id="slide3" class="slide hide">slide 3simone</div>
+
+	<div id="slide4" class="slide hide">slide 4</div>
+
+
+
+
+<script src="vendor/jquery-1.10.2.min.js"></script>
+<script src="bootstrap/bootstrap3rc.min.js"></script>
+<script src="vendor/hammer.min.js"></script>
+<script src="vendor/viewport.js"></script>
+<!-- <script src="js/zswipe.js"></script> -->
+<script type="text/javascript">
+// git remote add origin https://zsimo@bitbucket.org/zsimo/slides.git
+// git push -u origin --all
+// git remote show origin
+// git pull -v
+
+var slides_id = [];
+if (location.hash === "") {
+	location.hash = "#!slide1";
+}
+var index = parseInt(location.hash.substring(7));
+var count = 1;
+$('div[id^=slide]').each(function() {
+	slides_id.push(this.id);
+	//$('this').addClass('hide');
+	if (count === index) {
+		this.className = "slide";
+	}
+	else {
+		this.className = "slide hide";
+	}
+
+	count += 1;
+});
+
+var slides_number = slides_id.length;
+
+
+	$(document).keydown(function(e) {
+
+		console.log(e.keyCode);
+
+		// left arrow
+		if (e.keyCode === 37) {
+
+			if (index > 1) {
+
+				$("#slide"+index).removeClass('animated fadeInLeftBig');
+				$("#slide"+index).toggleClass('hide');
+				index -= 1;
+				location.hash = "#!slide"+index;
+				$("#slide"+index).toggleClass('hide');
+				$("#slide"+index).addClass('animated fadeInLeftBig');
+
+			}
+		}
+		// right arrow
+		else if (e.keyCode === 39) {
+
+			if (index < slides_number) {
+
+				$("#slide"+index).removeClass('animated fadeInRightBig');
+				$("#slide"+index).toggleClass('hide');
+				index += 1;
+				location.hash = "#!slide"+index;
+				$("#slide"+index).toggleClass('hide');
+				$("#slide"+index).addClass('animated fadeInRightBig');
+
+			}
+
+		}
+
+
+	});
+
+	Hammer(document.getElementById('body')).on("swipeleft", function() {
+		if (index < slides_number) {
+			$("#slide"+index).removeClass('animated fadeInRightBig');
+			$("#slide"+index).toggleClass('hide');
+			index += 1;
+			$("#slide"+index).toggleClass('hide');
+			$("#slide"+index).addClass('animated fadeInRightBig');
+		}
+
+	});
+
+	Hammer(document.getElementById('body')).on("swiperight", function() {
+		if (index > 1) {
+			$("#slide"+index).removeClass('animated fadeInLeftBig');
+			$("#slide"+index).toggleClass('hide');
+			index -= 1;
+			$("#slide"+index).toggleClass('hide');
+			$("#slide"+index).addClass('animated fadeInLeftBig');
+		}
+	});
+
+function locationHashChanged() {
+
+	var hash = location.hash;
+
+	// console.log(hash);
+
+	if (hash === '#!mongodb') {
+
+	}
+
+
+
+}
+
+	if ("onhashchange" in window) {
+
+    	// console.log("this browser support the hashChange event");
+
+    	// voglio che controlli l'hash anche al caricamento della pagina
+    	// se il browser supporta questo evento
+    	locationHashChanged();
+
+	}
+
+	window.onhashchange = locationHashChanged;
+
+
+
+</script>
+
+
+</body>
+
+</html>
