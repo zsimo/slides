@@ -2,5 +2,5 @@
 
 
 - implementation swipe con hammer
-- tentativo di creare la propria libreia per swipire
+- tentativo di creare la propria libreria per swipire
 - usa dell'hash per storare lo stato
