@@ -36,7 +36,7 @@
     document.getElementsByTagName('html')[0].addEventListener("touchmove", function(evt) {
 
         var touches = evt.changedTouches[0];
-        // touches.screenX è la lunghezza dello schermo
+        // touches.screenX la lunghezza dello schermo
         // considera anche lo schermo esteso
 
         //console.log("X "+touches.pageX);
@@ -58,7 +58,7 @@
         document.getElementsByTagName('html')[0].addEventListener("touchmove", function(evt) {
 
             var touches = evt.changedTouches[0];
-            // touches.screenX è la lunghezza dello schermo
+            // touches.screenX ï¿½ la lunghezza dello schermo
             // considera anche lo schermo esteso
 
             this._x = touches.pageX;
@@ -72,7 +72,7 @@
         document.getElementsByTagName('html')[0].addEventListener("touchstart", function(evt) {
 
             var touches = evt.changedTouches[0];
-            // touches.screenX è la lunghezza dello schermo
+            // touches.screenX ï¿½ la lunghezza dello schermo
             // considera anche lo schermo esteso
             this.start_x = touches.pageX;
             this.start_y = touches.pageY;
@@ -86,7 +86,7 @@
         document.getElementsByTagName('html')[0].addEventListener("touchend", function(evt) {
 
             var touches = evt.changedTouches[0];
-            // touches.screenX è la lunghezza dello schermo
+            // touches.screenX ï¿½ la lunghezza dello schermo
             // considera anche lo schermo esteso
             this.end_x = touches.pageX;
             this.end_y = touches.pageY;

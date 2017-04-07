@@ -1,0 +1,12 @@
+{
+  "name": "slides",
+  "repository": "https://github.com/zsimo/slides.git",
+  "author": "Simone Sacchi <sacchisimone@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  },
+  "scripts": {
+    "start": "live-server --port=8000 --open=/"
+  }
+}
