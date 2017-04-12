@@ -117,7 +117,7 @@
     Hammer(document.getElementById('body')).on("swipeleft", moveLeft);
     Hammer(document.getElementById('body')).on("swiperight", moveRight);
     window.addEventListener("optimizedResize", resize);
-    throttle("resize", "optimizedResize");s
+    throttle("resize", "optimizedResize");
 
 })();
 
