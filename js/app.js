@@ -4,9 +4,39 @@
 
 
 "use strict";
-// https://developer.mozilla.org/en-US/docs/Web/Events/resize
+
 (function() {
-    var throttle = function(type, name) {
+
+
+    var slides_id = [];
+    if (location.hash === "") {
+        location.hash = "#!slide1";
+    }
+    var browserHeight = getBrowserHeight();
+    var index = parseInt(location.hash.substring(7));
+    var count = 1;
+    var slides_number;
+
+    $('div[id^=slide]').each(function() {
+        slides_id.push(this.id);
+        //$('this').addClass('hide');
+        if (count === index) {
+            this.className = "slide";
+        }
+        else {
+            this.className = "slide hide";
+        }
+
+        this.style.height = ((browserHeight / 100) * 80) + "px";
+
+        count += 1;
+    });
+    slides_number = slides_id.length;
+
+
+
+    // https://developer.mozilla.org/en-US/docs/Web/Events/resize
+    function throttle (type, name) {
         var running = false;
         var func = function() {
             if (running) { return; }
@@ -19,132 +49,75 @@
         window.addEventListener(type, func);
     };
 
-    /* init - you can init any event */
-    throttle("resize", "optimizedResize");
-})();
 
-var slides_id = [];
-if (location.hash === "") {
-    location.hash = "#!slide1";
-}
-var browserHeight = window.innerHeight || Math.max(document.documentElement.clientHeight, document.body.clientHeight);
-var index = parseInt(location.hash.substring(7));
-var count = 1;
 
-$('div[id^=slide]').each(function() {
-    slides_id.push(this.id);
-    //$('this').addClass('hide');
-    if (count === index) {
-        this.className = "slide";
-    }
-    else {
-        this.className = "slide hide";
+    function getBrowserHeight() {
+        return window.innerHeight || Math.max(document.documentElement.clientHeight, document.body.clientHeight);
     }
 
-    this.style.height = ((browserHeight / 100) * 80) + "px";
 
-    count += 1;
-});
+    function resize () {
+        var browserHeight = getBrowserHeight();
 
-var slides_number = slides_id.length;
+        var slides = document.getElementsByClassName("slide");
 
+        for (var i = 0, len = slides.length; i < len; i += 1) {
+            slides[i].style.height = ((browserHeight / 100) * 80) + "px";
+        }
+    }
 
-$(document).keydown(function(e) {
-
-    // left arrow
-    if (e.keyCode === 37) {
-
+    function moveLeft () {
         if (index > 1) {
 
-            $("#slide"+index).removeClass('animated fadeInLeftBig');
-            $("#slide"+index).toggleClass('hide');
+            $("#slide"+index)
+                .removeClass('animated fadeInLeftBig')
+                .toggleClass('hide');
+
             index -= 1;
             location.hash = "#!slide"+index;
-            $("#slide"+index).toggleClass('hide');
-            $("#slide"+index).addClass('animated fadeInLeftBig');
+
+            $("#slide"+index)
+                .toggleClass('hide')
+                .addClass('animated fadeInLeftBig');
 
         }
     }
-    // right arrow
-    else if (e.keyCode === 39) {
 
+    function moveRight () {
         if (index < slides_number) {
 
-            $("#slide"+index).removeClass('animated fadeInRightBig');
-            $("#slide"+index).toggleClass('hide');
+            $("#slide"+index)
+                .removeClass('animated fadeInRightBig')
+                .toggleClass('hide');
+
             index += 1;
             location.hash = "#!slide"+index;
-            $("#slide"+index).toggleClass('hide');
-            $("#slide"+index).addClass('animated fadeInRightBig');
+
+            $("#slide"+index)
+                .toggleClass('hide')
+                .addClass('animated fadeInRightBig');
 
         }
+    }
 
+    function onKeyDown (e) {
+        // left arrow
+        if (e.keyCode === 37) {
+            moveLeft();
+        }
+        // right arrow
+        else if (e.keyCode === 39) {
+            moveRight();
+        }
     }
 
 
-});
+    // attach events
+    $(document).keydown(onKeyDown);
+    Hammer(document.getElementById('body')).on("swipeleft", moveLeft);
+    Hammer(document.getElementById('body')).on("swiperight", moveRight);
+    window.addEventListener("optimizedResize", resize);
+    throttle("resize", "optimizedResize");s
 
-Hammer(document.getElementById('body')).on("swipeleft", function() {
-    if (index < slides_number) {
-        $("#slide"+index).removeClass('animated fadeInRightBig');
-        $("#slide"+index).toggleClass('hide');
-        index += 1;
-        $("#slide"+index).toggleClass('hide');
-        $("#slide"+index).addClass('animated fadeInRightBig');
-    }
-
-});
-
-Hammer(document.getElementById('body')).on("swiperight", function() {
-    if (index > 1) {
-        $("#slide"+index).removeClass('animated fadeInLeftBig');
-        $("#slide"+index).toggleClass('hide');
-        index -= 1;
-        $("#slide"+index).toggleClass('hide');
-        $("#slide"+index).addClass('animated fadeInLeftBig');
-    }
-});
-
-function locationHashChanged() {
-
-    var hash = location.hash;
-
-    // console.log(hash);
-
-    if (hash === '#!mongodb') {
-
-    }
-
-
-
-}
-
-if ("onhashchange" in window) {
-
-    // console.log("this browser support the hashChange event");
-
-    // voglio che controlli l'hash anche al caricamento della pagina
-    // se il browser supporta questo evento
-    locationHashChanged();
-
-}
-
-window.onhashchange = locationHashChanged;
-
-
-
-function resize () {
-    var browserHeight = window.innerHeight || Math.max(document.documentElement.clientHeight, document.body.clientHeight);
-
-    var slides = document.getElementsByClassName("slide");
-
-    for (var i = 0, len = slides.length; i < len; i += 1) {
-        slides[i].style.height = ((browserHeight / 100) * 80) + "px";
-    }
-
-}
-
-window.addEventListener("optimizedResize", function() {
-    resize();
-});
+})();
 
