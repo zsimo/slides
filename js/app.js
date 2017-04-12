@@ -5,7 +5,7 @@
 
 "use strict";
 
-(function() {
+(function () {
 
 
     var slides_id = [];
@@ -17,13 +17,12 @@
     var count = 1;
     var slides_number;
 
-    $('div[id^=slide]').each(function() {
+    $('div[id^=slide]').each(function () {
         slides_id.push(this.id);
         //$('this').addClass('hide');
         if (count === index) {
             this.className = "slide";
-        }
-        else {
+        } else {
             this.className = "slide hide";
         }
 
@@ -36,12 +35,14 @@
 
 
     // https://developer.mozilla.org/en-US/docs/Web/Events/resize
-    function throttle (type, name) {
+    function throttle(type, name) {
         var running = false;
-        var func = function() {
-            if (running) { return; }
+        var func = function () {
+            if (running) {
+                return;
+            }
             running = true;
-            requestAnimationFrame(function() {
+            requestAnimationFrame(function () {
                 window.dispatchEvent(new CustomEvent(name));
                 running = false;
             });
@@ -56,7 +57,7 @@
     }
 
 
-    function resize () {
+    function resize() {
         var browserHeight = getBrowserHeight();
 
         var slides = document.getElementsByClassName("slide");
@@ -66,41 +67,41 @@
         }
     }
 
-    function moveLeft () {
+    function moveLeft() {
         if (index > 1) {
 
-            $("#slide"+index)
+            $("#slide" + index)
                 .removeClass('animated fadeInLeftBig')
                 .toggleClass('hide');
 
             index -= 1;
-            location.hash = "#!slide"+index;
+            location.hash = "#!slide" + index;
 
-            $("#slide"+index)
+            $("#slide" + index)
                 .toggleClass('hide')
                 .addClass('animated fadeInLeftBig');
 
         }
     }
 
-    function moveRight () {
+    function moveRight() {
         if (index < slides_number) {
 
-            $("#slide"+index)
+            $("#slide" + index)
                 .removeClass('animated fadeInRightBig')
                 .toggleClass('hide');
 
             index += 1;
-            location.hash = "#!slide"+index;
+            location.hash = "#!slide" + index;
 
-            $("#slide"+index)
+            $("#slide" + index)
                 .toggleClass('hide')
                 .addClass('animated fadeInRightBig');
 
         }
     }
 
-    function onKeyDown (e) {
+    function onKeyDown(e) {
         // left arrow
         if (e.keyCode === 37) {
             moveLeft();
